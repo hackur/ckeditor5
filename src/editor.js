@@ -85,7 +85,7 @@ export default class Editor {
 		 * @readonly
 		 * @member {utils.Locale} ckeditor5.Editor#locale
 		 */
-		this.locale = new Locale( config.lang );
+		this.locale = new Locale( config.get( 'lang' ) );
 
 		/**
 		 * Shorthand for {@link utils.Locale#t}.
@@ -174,11 +174,11 @@ export default class Editor {
 	init() {
 		const that = this;
 		const config = this.config;
-		let creatorName = config.creator;
+		let creatorName = config.get( 'creator' );
 
 		if ( !creatorName ) {
 			/**
-			 * The `config.creator` option was not defined.
+			 * The creator option from config was not defined.
 			 *
 			 * @error editor-undefined-creator
 			 */
@@ -192,7 +192,7 @@ export default class Editor {
 			.then( fireCreator );
 
 		function loadPlugins() {
-			let plugins = config.features || [];
+			let plugins = config.get( 'features' ) || [];
 
 			// Handle features passed as a string.
 			if ( !isArray( plugins ) ) {
@@ -211,8 +211,8 @@ export default class Editor {
 		}
 
 		function fireCreator() {
-			// We can always get the creator by its name because config.creator (which is requried) is passed
-			// to PluginCollection.load().
+			// We can always get the creator by its name because creator option from config (which is requried)
+			// is passed to PluginCollection.load().
 			that._creator = that.plugins.get( creatorName );
 
 			// Finally fire the creator. It may be asynchronous, returning a promise.

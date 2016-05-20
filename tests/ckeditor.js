@@ -39,7 +39,7 @@ describe( 'create', () => {
 
 	it( 'should set configurations on the new editor', () => {
 		return CKEDITOR.create( content, { test: 1, creator: 'creator-test' } ).then( ( editor ) => {
-			expect( editor.config.test ).to.equal( 1 );
+			expect( editor.config.get( 'test' ) ).to.equal( 1 );
 		} );
 	} );
 
