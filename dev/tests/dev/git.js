@@ -13,6 +13,7 @@ const chai = require( 'chai' );
 const sinon = require( 'sinon' );
 const tools = require( '../../tasks/dev/utils/tools' );
 const expect = chai.expect;
+const url = require( 'url' );
 
 describe( 'utils', () => {
 	beforeEach( () => {
@@ -247,20 +248,46 @@ describe( 'utils', () => {
 		describe( 'addRemote', () => {
 			it( 'should be defined', () => expect( git.addRemote ).to.be.a( 'function' ) );
 
-			it( 'should execute add remote commands', () => {
-				const shExecStub = sandbox.stub( tools, 'shExec' );
+			describe( 'should execute add remote commands', () => {
+				let shExecStub;
 				const pluginName = 'ckeditor5-plugin-name';
-				const repositoryUrl = `git@github.com:ckeditor/${ pluginName }.git`;
 				const repositoryPath = '/path/to/repo';
-				const addRemoteCommands = [
-					`cd ${ repositoryPath }`,
-					`git remote add origin ${ repositoryUrl }`
-				];
 
-				git.addRemote( repositoryPath, repositoryUrl );
+				beforeEach( () => {
+					shExecStub = sandbox.stub( tools, 'shExec' );
+				} );
 
-				expect( shExecStub.calledOnce ).to.equal( true );
-				expect( shExecStub.firstCall.args[ 0 ] ).to.equal( addRemoteCommands.join( ' && ' ) );
+				it( 'without modification repository URL', () => {
+					sandbox.stub( url, 'parse' ).returns( {
+						protocol: 'https:'
+					} );
+
+					const addRemoteCommands = [
+						`cd ${ repositoryPath }`,
+						`git remote add origin ${ pluginName }`
+					];
+
+					git.addRemote( repositoryPath, pluginName );
+
+					expect( shExecStub.calledOnce ).to.equal( true );
+					expect( shExecStub.firstCall.args[ 0 ] ).to.equal( addRemoteCommands.join( ' && ' ) );
+				} );
+
+				it( 'with modification repository URL to correct schema', () => {
+					sandbox.stub( url, 'parse' ).returns( {
+						protocol: null
+					} );
+
+					const addRemoteCommands = [
+						`cd ${ repositoryPath }`,
+						`git remote add origin https://github.com/${ pluginName }`
+					];
+
+					git.addRemote( repositoryPath, pluginName );
+
+					expect( shExecStub.calledOnce ).to.equal( true );
+					expect( shExecStub.firstCall.args[ 0 ] ).to.equal( addRemoteCommands.join( ' && ' ) );
+				} );
 			} );
 		} );
 	} );

@@ -5,6 +5,7 @@
 
 'use strict';
 
+const url = require( 'url' );
 const tools = require( './tools' );
 const defaultOrigin = 'origin';
 
@@ -152,6 +153,12 @@ module.exports = {
 	 * @param {String} repositoryUrl
 	 */
 	addRemote( repositoryPath, repositoryUrl ) {
+		const parsedUrl = url.parse( repositoryUrl );
+
+		if ( !parsedUrl.protocol ) {
+			repositoryUrl = `https://github.com/${ repositoryUrl }`;
+		}
+
 		const addRemoteCommands = [
 			`cd ${ repositoryPath }`,
 			`git remote add ${ defaultOrigin } ${ repositoryUrl }`
