@@ -152,11 +152,11 @@ module.exports = {
 	 * @param {String} repositoryPath
 	 */
 	addRemote( pluginName, repositoryPath ) {
-		const commitCommands = [
+		const addRemoteCommands = [
 			`cd ${ repositoryPath }`,
 			`git remote add ${ defaultOrigin } git@github.com:ckeditor/${ pluginName }.git`
 		];
 
-		tools.shExec( commitCommands.join( ' && ' ) );
+		tools.shExec( addRemoteCommands.join( ' && ' ) );
 	}
 };

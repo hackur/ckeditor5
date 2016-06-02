@@ -251,7 +251,7 @@ describe( 'utils', () => {
 				const shExecStub = sandbox.stub( tools, 'shExec' );
 				const pluginName = 'ckeditor5-plugin-name';
 				const repositoryPath = '/path/to/repo';
-				const commitCommands = [
+				const addRemoteCommands = [
 					`cd ${ repositoryPath }`,
 					`git remote add origin git@github.com:ckeditor/${ pluginName }.git`
 				];
@@ -259,7 +259,7 @@ describe( 'utils', () => {
 				git.addRemote( pluginName, repositoryPath );
 
 				expect( shExecStub.calledOnce ).to.equal( true );
-				expect( shExecStub.firstCall.args[ 0 ] ).to.equal( commitCommands.join( ' && ' ) );
+				expect( shExecStub.firstCall.args[ 0 ] ).to.equal( addRemoteCommands.join( ' && ' ) );
 			} );
 		} );
 	} );

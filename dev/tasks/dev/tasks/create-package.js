@@ -89,6 +89,9 @@ module.exports = ( ckeditor5Path, workspaceRoot ) => {
 			log.out( `Initializing repository ${ repositoryPath }...` );
 			git.initializeRepository( repositoryPath );
 
+			log.out( `Adding remote ${ repositoryPath }...` );
+			git.addRemote( packageName, repositoryPath );
+
 			log.out( `Copying files into ${ repositoryPath }...` );
 
 			for ( let destination in fileStructure ) {
