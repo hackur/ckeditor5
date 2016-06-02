@@ -90,7 +90,7 @@ module.exports = ( ckeditor5Path, workspaceRoot ) => {
 			git.initializeRepository( repositoryPath );
 
 			log.out( `Adding remote ${ repositoryPath }...` );
-			git.addRemote( packageName, repositoryPath );
+			git.addRemote( repositoryPath, gitHubUrl );
 
 			log.out( `Copying files into ${ repositoryPath }...` );
 

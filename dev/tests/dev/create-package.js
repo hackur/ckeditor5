@@ -68,8 +68,8 @@ describe( 'dev-create-package', () => {
 			expect( spies.initializeRepository.calledOnce ).to.equal( true );
 			expect( spies.initializeRepository.firstCall.args[ 0 ] ).to.equal( repositoryPath );
 			expect( spies.addRemote.calledOnce ).to.equal( true );
-			expect( spies.addRemote.firstCall.args[ 0 ] ).to.equal( packageName );
-			expect( spies.addRemote.firstCall.args[ 1 ] ).to.equal( repositoryPath );
+			expect( spies.addRemote.firstCall.args[ 0 ] ).to.equal( repositoryPath );
+			expect( spies.addRemote.firstCall.args[ 1 ] ).to.equal( gitHubUrl );
 			expect( spies.copy.called ).to.equal( true );
 			expect( spies.updateJSONFile.calledTwice ).to.equal( true );
 			expect( spies.updateJSONFile.firstCall.args[ 0 ] ).to.equal( path.join( repositoryPath, 'package.json' ) );
