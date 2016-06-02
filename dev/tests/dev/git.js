@@ -243,5 +243,24 @@ describe( 'utils', () => {
 				expect( shExecStub.firstCall.args[ 0 ] ).to.equal( commitCommands.join( ' && ' ) );
 			} );
 		} );
+
+		describe( 'addRemote', () => {
+			it( 'should be defined', () => expect( git.addRemote ).to.be.a( 'function' ) );
+
+			it( 'should execute add remote commands', () => {
+				const shExecStub = sandbox.stub( tools, 'shExec' );
+				const pluginName = 'ckeditor5-plugin-name';
+				const repositoryPath = '/path/to/repo';
+				const commitCommands = [
+					`cd ${ repositoryPath }`,
+					`git remote add origin git@github.com:ckeditor/${ pluginName }.git`
+				];
+
+				git.addRemote( pluginName, repositoryPath );
+
+				expect( shExecStub.calledOnce ).to.equal( true );
+				expect( shExecStub.firstCall.args[ 0 ] ).to.equal( commitCommands.join( ' && ' ) );
+			} );
+		} );
 	} );
 } );

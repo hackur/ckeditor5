@@ -6,6 +6,7 @@
 'use strict';
 
 const tools = require( './tools' );
+const defaultOrigin = 'origin';
 
 module.exports = {
 
@@ -89,7 +90,7 @@ module.exports = {
 	pull( repositoryLocation, branchName ) {
 		const pullCommands = [
 			`cd ${ repositoryLocation }`,
-			`git pull origin ${ branchName }`
+			`git pull ${ defaultOrigin } ${ branchName }`
 		];
 
 		tools.shExec( pullCommands.join( ' && ' ) );
@@ -139,6 +140,21 @@ module.exports = {
 			`cd ${ repositoryPath }`,
 			`git add .`,
 			`git commit -m "Initial commit for ${ pluginName }."`
+		];
+
+		tools.shExec( commitCommands.join( ' && ' ) );
+	},
+
+	/**
+	 * Adds remote to repository under specified path.
+	 *
+	 * @param {String} pluginName
+	 * @param {String} repositoryPath
+	 */
+	addRemote( pluginName, repositoryPath ) {
+		const commitCommands = [
+			`cd ${ repositoryPath }`,
+			`git remote add ${ defaultOrigin } git@github.com:ckeditor/${ pluginName }.git`
 		];
 
 		tools.shExec( commitCommands.join( ' && ' ) );
